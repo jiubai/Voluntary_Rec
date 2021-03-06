@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--这里就只保留settings和别名这种配置了-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <package name="com.Jiubai.pojo"/>
+    </typeAliases>
+    <!--注意mapper不能继续放在这里了，否则和Spring中要冲突-->
+
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!--分页合理化：杜绝不存在的页数-->
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>
+
+</configuration>

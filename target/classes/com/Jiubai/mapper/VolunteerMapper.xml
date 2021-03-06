@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Jiubai.mapper.VolunteerMapper">
+  <resultMap id="BaseResultMap" type="com.Jiubai.pojo.entity.Volunteer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="vol_id" jdbcType="INTEGER" property="volId" />
+    <result column="vol_cert_status" jdbcType="INTEGER" property="volCertStatus" />
+    <result column="vol_province" jdbcType="INTEGER" property="volProvince" />
+    <result column="vol_district" jdbcType="INTEGER" property="volDistrict" />
+    <result column="vol_committee" jdbcType="INTEGER" property="volCommittee" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="login_pass" jdbcType="VARCHAR" property="loginPass" />
+    <result column="login_status" jdbcType="INTEGER" property="loginStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="vol_number" jdbcType="INTEGER" property="volNumber" />
+    <result column="vol_true_name" jdbcType="CHAR" property="volTrueName" />
+    <result column="vol_gender" jdbcType="INTEGER" property="volGender" />
+    <result column="vol_birth_date" jdbcType="TIMESTAMP" property="volBirthDate" />
+    <result column="vol_ethnicity" jdbcType="INTEGER" property="volEthnicity" />
+    <result column="vol_student_flag" jdbcType="INTEGER" property="volStudentFlag" />
+    <result column="vol_university" jdbcType="INTEGER" property="volUniversity" />
+    <result column="vol_edu_degree" jdbcType="INTEGER" property="volEduDegree" />
+    <result column="vol_political" jdbcType="INTEGER" property="volPolitical" />
+    <result column="vol_hour" jdbcType="INTEGER" property="volHour" />
+    <result column="vol_skill" jdbcType="VARCHAR" property="volSkill" />
+    <result column="vol_service_tag" jdbcType="VARCHAR" property="volServiceTag" />
+    <result column="vol_active_flag" jdbcType="INTEGER" property="volActiveFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, vol_id, vol_cert_status, vol_province, vol_district, vol_committee, login_name, 
+    login_pass, login_status, create_time, vol_number, vol_true_name, vol_gender, vol_birth_date, 
+    vol_ethnicity, vol_student_flag, vol_university, vol_edu_degree, vol_political, vol_hour, 
+    vol_skill, vol_service_tag, vol_active_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.Jiubai.pojo.entity.VolunteerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from vol_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from vol_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from vol_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.Jiubai.pojo.entity.VolunteerExample">
+    delete from vol_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.Jiubai.pojo.entity.Volunteer">
+    insert into vol_info (id, vol_id, vol_cert_status, 
+      vol_province, vol_district, vol_committee, 
+      login_name, login_pass, login_status, 
+      create_time, vol_number, vol_true_name, 
+      vol_gender, vol_birth_date, vol_ethnicity, 
+      vol_student_flag, vol_university, vol_edu_degree, 
+      vol_political, vol_hour, vol_skill, 
+      vol_service_tag, vol_active_flag)
+    values (#{id,jdbcType=INTEGER}, #{volId,jdbcType=INTEGER}, #{volCertStatus,jdbcType=INTEGER}, 
+      #{volProvince,jdbcType=INTEGER}, #{volDistrict,jdbcType=INTEGER}, #{volCommittee,jdbcType=INTEGER}, 
+      #{loginName,jdbcType=VARCHAR}, #{loginPass,jdbcType=VARCHAR}, #{loginStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{volNumber,jdbcType=INTEGER}, #{volTrueName,jdbcType=CHAR}, 
+      #{volGender,jdbcType=INTEGER}, #{volBirthDate,jdbcType=TIMESTAMP}, #{volEthnicity,jdbcType=INTEGER}, 
+      #{volStudentFlag,jdbcType=INTEGER}, #{volUniversity,jdbcType=INTEGER}, #{volEduDegree,jdbcType=INTEGER}, 
+      #{volPolitical,jdbcType=INTEGER}, #{volHour,jdbcType=INTEGER}, #{volSkill,jdbcType=VARCHAR}, 
+      #{volServiceTag,jdbcType=VARCHAR}, #{volActiveFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Jiubai.pojo.entity.Volunteer">
+    insert into vol_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="volId != null">
+        vol_id,
+      </if>
+      <if test="volCertStatus != null">
+        vol_cert_status,
+      </if>
+      <if test="volProvince != null">
+        vol_province,
+      </if>
+      <if test="volDistrict != null">
+        vol_district,
+      </if>
+      <if test="volCommittee != null">
+        vol_committee,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="loginPass != null">
+        login_pass,
+      </if>
+      <if test="loginStatus != null">
+        login_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="volNumber != null">
+        vol_number,
+      </if>
+      <if test="volTrueName != null">
+        vol_true_name,
+      </if>
+      <if test="volGender != null">
+        vol_gender,
+      </if>
+      <if test="volBirthDate != null">
+        vol_birth_date,
+      </if>
+      <if test="volEthnicity != null">
+        vol_ethnicity,
+      </if>
+      <if test="volStudentFlag != null">
+        vol_student_flag,
+      </if>
+      <if test="volUniversity != null">
+        vol_university,
+      </if>
+      <if test="volEduDegree != null">
+        vol_edu_degree,
+      </if>
+      <if test="volPolitical != null">
+        vol_political,
+      </if>
+      <if test="volHour != null">
+        vol_hour,
+      </if>
+      <if test="volSkill != null">
+        vol_skill,
+      </if>
+      <if test="volServiceTag != null">
+        vol_service_tag,
+      </if>
+      <if test="volActiveFlag != null">
+        vol_active_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="volId != null">
+        #{volId,jdbcType=INTEGER},
+      </if>
+      <if test="volCertStatus != null">
+        #{volCertStatus,jdbcType=INTEGER},
+      </if>
+      <if test="volProvince != null">
+        #{volProvince,jdbcType=INTEGER},
+      </if>
+      <if test="volDistrict != null">
+        #{volDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="volCommittee != null">
+        #{volCommittee,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null">
+        #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="loginStatus != null">
+        #{loginStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="volNumber != null">
+        #{volNumber,jdbcType=INTEGER},
+      </if>
+      <if test="volTrueName != null">
+        #{volTrueName,jdbcType=CHAR},
+      </if>
+      <if test="volGender != null">
+        #{volGender,jdbcType=INTEGER},
+      </if>
+      <if test="volBirthDate != null">
+        #{volBirthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="volEthnicity != null">
+        #{volEthnicity,jdbcType=INTEGER},
+      </if>
+      <if test="volStudentFlag != null">
+        #{volStudentFlag,jdbcType=INTEGER},
+      </if>
+      <if test="volUniversity != null">
+        #{volUniversity,jdbcType=INTEGER},
+      </if>
+      <if test="volEduDegree != null">
+        #{volEduDegree,jdbcType=INTEGER},
+      </if>
+      <if test="volPolitical != null">
+        #{volPolitical,jdbcType=INTEGER},
+      </if>
+      <if test="volHour != null">
+        #{volHour,jdbcType=INTEGER},
+      </if>
+      <if test="volSkill != null">
+        #{volSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="volServiceTag != null">
+        #{volServiceTag,jdbcType=VARCHAR},
+      </if>
+      <if test="volActiveFlag != null">
+        #{volActiveFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.Jiubai.pojo.entity.VolunteerExample" resultType="java.lang.Long">
+    select count(*) from vol_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update vol_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.volId != null">
+        vol_id = #{record.volId,jdbcType=INTEGER},
+      </if>
+      <if test="record.volCertStatus != null">
+        vol_cert_status = #{record.volCertStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.volProvince != null">
+        vol_province = #{record.volProvince,jdbcType=INTEGER},
+      </if>
+      <if test="record.volDistrict != null">
+        vol_district = #{record.volDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="record.volCommittee != null">
+        vol_committee = #{record.volCommittee,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginName != null">
+        login_name = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginPass != null">
+        login_pass = #{record.loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginStatus != null">
+        login_status = #{record.loginStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.volNumber != null">
+        vol_number = #{record.volNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.volTrueName != null">
+        vol_true_name = #{record.volTrueName,jdbcType=CHAR},
+      </if>
+      <if test="record.volGender != null">
+        vol_gender = #{record.volGender,jdbcType=INTEGER},
+      </if>
+      <if test="record.volBirthDate != null">
+        vol_birth_date = #{record.volBirthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.volEthnicity != null">
+        vol_ethnicity = #{record.volEthnicity,jdbcType=INTEGER},
+      </if>
+      <if test="record.volStudentFlag != null">
+        vol_student_flag = #{record.volStudentFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.volUniversity != null">
+        vol_university = #{record.volUniversity,jdbcType=INTEGER},
+      </if>
+      <if test="record.volEduDegree != null">
+        vol_edu_degree = #{record.volEduDegree,jdbcType=INTEGER},
+      </if>
+      <if test="record.volPolitical != null">
+        vol_political = #{record.volPolitical,jdbcType=INTEGER},
+      </if>
+      <if test="record.volHour != null">
+        vol_hour = #{record.volHour,jdbcType=INTEGER},
+      </if>
+      <if test="record.volSkill != null">
+        vol_skill = #{record.volSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="record.volServiceTag != null">
+        vol_service_tag = #{record.volServiceTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.volActiveFlag != null">
+        vol_active_flag = #{record.volActiveFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update vol_info
+    set id = #{record.id,jdbcType=INTEGER},
+      vol_id = #{record.volId,jdbcType=INTEGER},
+      vol_cert_status = #{record.volCertStatus,jdbcType=INTEGER},
+      vol_province = #{record.volProvince,jdbcType=INTEGER},
+      vol_district = #{record.volDistrict,jdbcType=INTEGER},
+      vol_committee = #{record.volCommittee,jdbcType=INTEGER},
+      login_name = #{record.loginName,jdbcType=VARCHAR},
+      login_pass = #{record.loginPass,jdbcType=VARCHAR},
+      login_status = #{record.loginStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      vol_number = #{record.volNumber,jdbcType=INTEGER},
+      vol_true_name = #{record.volTrueName,jdbcType=CHAR},
+      vol_gender = #{record.volGender,jdbcType=INTEGER},
+      vol_birth_date = #{record.volBirthDate,jdbcType=TIMESTAMP},
+      vol_ethnicity = #{record.volEthnicity,jdbcType=INTEGER},
+      vol_student_flag = #{record.volStudentFlag,jdbcType=INTEGER},
+      vol_university = #{record.volUniversity,jdbcType=INTEGER},
+      vol_edu_degree = #{record.volEduDegree,jdbcType=INTEGER},
+      vol_political = #{record.volPolitical,jdbcType=INTEGER},
+      vol_hour = #{record.volHour,jdbcType=INTEGER},
+      vol_skill = #{record.volSkill,jdbcType=VARCHAR},
+      vol_service_tag = #{record.volServiceTag,jdbcType=VARCHAR},
+      vol_active_flag = #{record.volActiveFlag,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Jiubai.pojo.entity.Volunteer">
+    update vol_info
+    <set>
+      <if test="volId != null">
+        vol_id = #{volId,jdbcType=INTEGER},
+      </if>
+      <if test="volCertStatus != null">
+        vol_cert_status = #{volCertStatus,jdbcType=INTEGER},
+      </if>
+      <if test="volProvince != null">
+        vol_province = #{volProvince,jdbcType=INTEGER},
+      </if>
+      <if test="volDistrict != null">
+        vol_district = #{volDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="volCommittee != null">
+        vol_committee = #{volCommittee,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPass != null">
+        login_pass = #{loginPass,jdbcType=VARCHAR},
+      </if>
+      <if test="loginStatus != null">
+        login_status = #{loginStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="volNumber != null">
+        vol_number = #{volNumber,jdbcType=INTEGER},
+      </if>
+      <if test="volTrueName != null">
+        vol_true_name = #{volTrueName,jdbcType=CHAR},
+      </if>
+      <if test="volGender != null">
+        vol_gender = #{volGender,jdbcType=INTEGER},
+      </if>
+      <if test="volBirthDate != null">
+        vol_birth_date = #{volBirthDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="volEthnicity != null">
+        vol_ethnicity = #{volEthnicity,jdbcType=INTEGER},
+      </if>
+      <if test="volStudentFlag != null">
+        vol_student_flag = #{volStudentFlag,jdbcType=INTEGER},
+      </if>
+      <if test="volUniversity != null">
+        vol_university = #{volUniversity,jdbcType=INTEGER},
+      </if>
+      <if test="volEduDegree != null">
+        vol_edu_degree = #{volEduDegree,jdbcType=INTEGER},
+      </if>
+      <if test="volPolitical != null">
+        vol_political = #{volPolitical,jdbcType=INTEGER},
+      </if>
+      <if test="volHour != null">
+        vol_hour = #{volHour,jdbcType=INTEGER},
+      </if>
+      <if test="volSkill != null">
+        vol_skill = #{volSkill,jdbcType=VARCHAR},
+      </if>
+      <if test="volServiceTag != null">
+        vol_service_tag = #{volServiceTag,jdbcType=VARCHAR},
+      </if>
+      <if test="volActiveFlag != null">
+        vol_active_flag = #{volActiveFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Jiubai.pojo.entity.Volunteer">
+    update vol_info
+    set vol_id = #{volId,jdbcType=INTEGER},
+      vol_cert_status = #{volCertStatus,jdbcType=INTEGER},
+      vol_province = #{volProvince,jdbcType=INTEGER},
+      vol_district = #{volDistrict,jdbcType=INTEGER},
+      vol_committee = #{volCommittee,jdbcType=INTEGER},
+      login_name = #{loginName,jdbcType=VARCHAR},
+      login_pass = #{loginPass,jdbcType=VARCHAR},
+      login_status = #{loginStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      vol_number = #{volNumber,jdbcType=INTEGER},
+      vol_true_name = #{volTrueName,jdbcType=CHAR},
+      vol_gender = #{volGender,jdbcType=INTEGER},
+      vol_birth_date = #{volBirthDate,jdbcType=TIMESTAMP},
+      vol_ethnicity = #{volEthnicity,jdbcType=INTEGER},
+      vol_student_flag = #{volStudentFlag,jdbcType=INTEGER},
+      vol_university = #{volUniversity,jdbcType=INTEGER},
+      vol_edu_degree = #{volEduDegree,jdbcType=INTEGER},
+      vol_political = #{volPolitical,jdbcType=INTEGER},
+      vol_hour = #{volHour,jdbcType=INTEGER},
+      vol_skill = #{volSkill,jdbcType=VARCHAR},
+      vol_service_tag = #{volServiceTag,jdbcType=VARCHAR},
+      vol_active_flag = #{volActiveFlag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

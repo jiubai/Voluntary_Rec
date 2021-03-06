@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Jiubai.mapper.OrganizationMapper">
+  <resultMap id="BaseResultMap" type="com.Jiubai.pojo.entity.Organization">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="org_parent_id" jdbcType="INTEGER" property="orgParentId" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="org_manager_unit" jdbcType="VARCHAR" property="orgManagerUnit" />
+    <result column="org_build_date" jdbcType="TIMESTAMP" property="orgBuildDate" />
+    <result column="org_province" jdbcType="INTEGER" property="orgProvince" />
+    <result column="org_district" jdbcType="INTEGER" property="orgDistrict" />
+    <result column="org_street" jdbcType="INTEGER" property="orgStreet" />
+    <result column="org_committee" jdbcType="INTEGER" property="orgCommittee" />
+    <result column="org_address" jdbcType="VARCHAR" property="orgAddress" />
+    <result column="org_hour" jdbcType="DOUBLE" property="orgHour" />
+    <result column="org_member" jdbcType="INTEGER" property="orgMember" />
+    <result column="org_introduce" jdbcType="VARCHAR" property="orgIntroduce" />
+    <result column="manage_district" jdbcType="INTEGER" property="manageDistrict" />
+    <result column="manage_university" jdbcType="INTEGER" property="manageUniversity" />
+    <result column="org_members" jdbcType="INTEGER" property="orgMembers" />
+    <result column="org_hits" jdbcType="INTEGER" property="orgHits" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, org_id, org_parent_id, org_name, org_manager_unit, org_build_date, org_province, 
+    org_district, org_street, org_committee, org_address, org_hour, org_member, org_introduce, 
+    manage_district, manage_university, org_members, org_hits, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.Jiubai.pojo.entity.OrganizationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from org_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from org_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from org_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.Jiubai.pojo.entity.OrganizationExample">
+    delete from org_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.Jiubai.pojo.entity.Organization">
+    insert into org_info (id, org_id, org_parent_id, 
+      org_name, org_manager_unit, org_build_date, 
+      org_province, org_district, org_street, 
+      org_committee, org_address, org_hour, 
+      org_member, org_introduce, manage_district, 
+      manage_university, org_members, org_hits, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{orgId,jdbcType=INTEGER}, #{orgParentId,jdbcType=INTEGER}, 
+      #{orgName,jdbcType=VARCHAR}, #{orgManagerUnit,jdbcType=VARCHAR}, #{orgBuildDate,jdbcType=TIMESTAMP}, 
+      #{orgProvince,jdbcType=INTEGER}, #{orgDistrict,jdbcType=INTEGER}, #{orgStreet,jdbcType=INTEGER}, 
+      #{orgCommittee,jdbcType=INTEGER}, #{orgAddress,jdbcType=VARCHAR}, #{orgHour,jdbcType=DOUBLE}, 
+      #{orgMember,jdbcType=INTEGER}, #{orgIntroduce,jdbcType=VARCHAR}, #{manageDistrict,jdbcType=INTEGER}, 
+      #{manageUniversity,jdbcType=INTEGER}, #{orgMembers,jdbcType=INTEGER}, #{orgHits,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.Jiubai.pojo.entity.Organization">
+    insert into org_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgId != null">
+        org_id,
+      </if>
+      <if test="orgParentId != null">
+        org_parent_id,
+      </if>
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="orgManagerUnit != null">
+        org_manager_unit,
+      </if>
+      <if test="orgBuildDate != null">
+        org_build_date,
+      </if>
+      <if test="orgProvince != null">
+        org_province,
+      </if>
+      <if test="orgDistrict != null">
+        org_district,
+      </if>
+      <if test="orgStreet != null">
+        org_street,
+      </if>
+      <if test="orgCommittee != null">
+        org_committee,
+      </if>
+      <if test="orgAddress != null">
+        org_address,
+      </if>
+      <if test="orgHour != null">
+        org_hour,
+      </if>
+      <if test="orgMember != null">
+        org_member,
+      </if>
+      <if test="orgIntroduce != null">
+        org_introduce,
+      </if>
+      <if test="manageDistrict != null">
+        manage_district,
+      </if>
+      <if test="manageUniversity != null">
+        manage_university,
+      </if>
+      <if test="orgMembers != null">
+        org_members,
+      </if>
+      <if test="orgHits != null">
+        org_hits,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgParentId != null">
+        #{orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgManagerUnit != null">
+        #{orgManagerUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="orgBuildDate != null">
+        #{orgBuildDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgProvince != null">
+        #{orgProvince,jdbcType=INTEGER},
+      </if>
+      <if test="orgDistrict != null">
+        #{orgDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="orgStreet != null">
+        #{orgStreet,jdbcType=INTEGER},
+      </if>
+      <if test="orgCommittee != null">
+        #{orgCommittee,jdbcType=INTEGER},
+      </if>
+      <if test="orgAddress != null">
+        #{orgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orgHour != null">
+        #{orgHour,jdbcType=DOUBLE},
+      </if>
+      <if test="orgMember != null">
+        #{orgMember,jdbcType=INTEGER},
+      </if>
+      <if test="orgIntroduce != null">
+        #{orgIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="manageDistrict != null">
+        #{manageDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="manageUniversity != null">
+        #{manageUniversity,jdbcType=INTEGER},
+      </if>
+      <if test="orgMembers != null">
+        #{orgMembers,jdbcType=INTEGER},
+      </if>
+      <if test="orgHits != null">
+        #{orgHits,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.Jiubai.pojo.entity.OrganizationExample" resultType="java.lang.Long">
+    select count(*) from org_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update org_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgId != null">
+        org_id = #{record.orgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgParentId != null">
+        org_parent_id = #{record.orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgName != null">
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgManagerUnit != null">
+        org_manager_unit = #{record.orgManagerUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgBuildDate != null">
+        org_build_date = #{record.orgBuildDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orgProvince != null">
+        org_province = #{record.orgProvince,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgDistrict != null">
+        org_district = #{record.orgDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgStreet != null">
+        org_street = #{record.orgStreet,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgCommittee != null">
+        org_committee = #{record.orgCommittee,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgAddress != null">
+        org_address = #{record.orgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgHour != null">
+        org_hour = #{record.orgHour,jdbcType=DOUBLE},
+      </if>
+      <if test="record.orgMember != null">
+        org_member = #{record.orgMember,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgIntroduce != null">
+        org_introduce = #{record.orgIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageDistrict != null">
+        manage_district = #{record.manageDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="record.manageUniversity != null">
+        manage_university = #{record.manageUniversity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgMembers != null">
+        org_members = #{record.orgMembers,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgHits != null">
+        org_hits = #{record.orgHits,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update org_info
+    set id = #{record.id,jdbcType=INTEGER},
+      org_id = #{record.orgId,jdbcType=INTEGER},
+      org_parent_id = #{record.orgParentId,jdbcType=INTEGER},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      org_manager_unit = #{record.orgManagerUnit,jdbcType=VARCHAR},
+      org_build_date = #{record.orgBuildDate,jdbcType=TIMESTAMP},
+      org_province = #{record.orgProvince,jdbcType=INTEGER},
+      org_district = #{record.orgDistrict,jdbcType=INTEGER},
+      org_street = #{record.orgStreet,jdbcType=INTEGER},
+      org_committee = #{record.orgCommittee,jdbcType=INTEGER},
+      org_address = #{record.orgAddress,jdbcType=VARCHAR},
+      org_hour = #{record.orgHour,jdbcType=DOUBLE},
+      org_member = #{record.orgMember,jdbcType=INTEGER},
+      org_introduce = #{record.orgIntroduce,jdbcType=VARCHAR},
+      manage_district = #{record.manageDistrict,jdbcType=INTEGER},
+      manage_university = #{record.manageUniversity,jdbcType=INTEGER},
+      org_members = #{record.orgMembers,jdbcType=INTEGER},
+      org_hits = #{record.orgHits,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.Jiubai.pojo.entity.Organization">
+    update org_info
+    <set>
+      <if test="orgId != null">
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgParentId != null">
+        org_parent_id = #{orgParentId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgManagerUnit != null">
+        org_manager_unit = #{orgManagerUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="orgBuildDate != null">
+        org_build_date = #{orgBuildDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgProvince != null">
+        org_province = #{orgProvince,jdbcType=INTEGER},
+      </if>
+      <if test="orgDistrict != null">
+        org_district = #{orgDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="orgStreet != null">
+        org_street = #{orgStreet,jdbcType=INTEGER},
+      </if>
+      <if test="orgCommittee != null">
+        org_committee = #{orgCommittee,jdbcType=INTEGER},
+      </if>
+      <if test="orgAddress != null">
+        org_address = #{orgAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orgHour != null">
+        org_hour = #{orgHour,jdbcType=DOUBLE},
+      </if>
+      <if test="orgMember != null">
+        org_member = #{orgMember,jdbcType=INTEGER},
+      </if>
+      <if test="orgIntroduce != null">
+        org_introduce = #{orgIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="manageDistrict != null">
+        manage_district = #{manageDistrict,jdbcType=INTEGER},
+      </if>
+      <if test="manageUniversity != null">
+        manage_university = #{manageUniversity,jdbcType=INTEGER},
+      </if>
+      <if test="orgMembers != null">
+        org_members = #{orgMembers,jdbcType=INTEGER},
+      </if>
+      <if test="orgHits != null">
+        org_hits = #{orgHits,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.Jiubai.pojo.entity.Organization">
+    update org_info
+    set org_id = #{orgId,jdbcType=INTEGER},
+      org_parent_id = #{orgParentId,jdbcType=INTEGER},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_manager_unit = #{orgManagerUnit,jdbcType=VARCHAR},
+      org_build_date = #{orgBuildDate,jdbcType=TIMESTAMP},
+      org_province = #{orgProvince,jdbcType=INTEGER},
+      org_district = #{orgDistrict,jdbcType=INTEGER},
+      org_street = #{orgStreet,jdbcType=INTEGER},
+      org_committee = #{orgCommittee,jdbcType=INTEGER},
+      org_address = #{orgAddress,jdbcType=VARCHAR},
+      org_hour = #{orgHour,jdbcType=DOUBLE},
+      org_member = #{orgMember,jdbcType=INTEGER},
+      org_introduce = #{orgIntroduce,jdbcType=VARCHAR},
+      manage_district = #{manageDistrict,jdbcType=INTEGER},
+      manage_university = #{manageUniversity,jdbcType=INTEGER},
+      org_members = #{orgMembers,jdbcType=INTEGER},
+      org_hits = #{orgHits,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

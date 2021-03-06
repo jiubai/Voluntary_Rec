@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--1、关联数据库配置文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!--2、配置数据库连接池-->
+    <!--dbcp：半自动化操作，不能自动连接
+        c3p0：自动化操作，自动加载配置文件，同时自动设置到对象中-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!--c3p0连接池的私有属性-->
+        <property name="maxPoolSize" value="30"/>
+        <property name="minPoolSize" value="10"/>
+        <!--不自动提交-->
+        <property name="autoCommitOnClose" value="false"/>
+        <!--获取连接超时时间-->
+        <property name="checkoutTimeout" value="10000"/>
+        <!--获取连接失败重试次数-->
+        <property name="acquireRetryAttempts" value="2"/>
+    </bean>
+
+
+    <!--3、配置sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--绑定Mybatis配置文件，一些设置还是可以放在里面，包括settings或者别名-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--绑定mapper-->
+        <property name="mapperLocations" value="classpath:com/Jiubai/mapper/*.xml"/>
+    </bean>
+
+
+    <!--4、之前Spring和Mybatis的整合中，这里是sqlSession注入bean，然后写Service或者mapperImpl进行调用-->
+    <!--这里直接配置mapper接口扫描，由Spring帮我们实现mapperImpl并注入到容器中-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--注入sqlSessionFactory-->
+        <!--这里的底层是传入一个名字，用反射创建-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--配置mapper包-->
+        <property name="basePackage" value="com.Jiubai.mapper"/>
+    </bean>
+
+
+    <!--5、配置事务-->
+    <!--配置声明式事务：为啥叫声明式？我感觉就是因为事务是在这里声明了的-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--为啥需要DataSource？废话，不然你这个事务咋在数据库里回滚？-->
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--AOP配置事务管理器织入-->
+    <!--配置事务通知：应该就是设置事务的一些属性，告诉事务管理器事务生成的规则-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--给哪些方法配置事务-->
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED"/>
+            <!--下面这个是优化-->
+            <tx:method name="get*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置事务切入，正儿八经给方法配置事务-->
+    <!--这一步啥意思？我猜这一步的意思就是给方法的一系列操作加try-catch，如果报错了就在数据库里回滚-->
+    <aop:config>
+        <aop:pointcut id="pointCut" expression="execution(* com.Jiubai.service..*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointCut"/>
+    </aop:config>
+</beans>
